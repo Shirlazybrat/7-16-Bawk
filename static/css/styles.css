@@ -1,4 +1,68 @@
 /* line 1, ../../compass/sass/styles.scss */
 body {
-  background-color: #1d96d7;
+  background-color: #FEA008;
+  color: #533602;
+  font-family: 'Architects Daughter', cursive;
+}
+
+/* line 7, ../../compass/sass/styles.scss */
+.navbar {
+  background-color: #FDEDD0;
+  margin: 0px;
+}
+/* line 11, ../../compass/sass/styles.scss */
+.navbar li a {
+  background-color: #FFC439;
+  color: #533602;
+  height: 50px;
+}
+/* line 17, ../../compass/sass/styles.scss */
+.navbar .navbar-header {
+  padding: 8px 15px;
+}
+
+/* line 23, ../../compass/sass/styles.scss */
+#myCarousel {
+  height: 500px;
+}
+/* line 26, ../../compass/sass/styles.scss */
+#myCarousel img {
+  width: 100%;
+}
+/* line 30, ../../compass/sass/styles.scss */
+#myCarousel .carousel-caption {
+  margin-bottom: 200px;
+}
+/* line 33, ../../compass/sass/styles.scss */
+#myCarousel .carousel-caption h1 {
+  font-size: 100px;
+}
+
+/* line 39, ../../compass/sass/styles.scss */
+.intro {
+  margin-top: 50px;
+  background: rgba(253, 237, 208, 0.8);
+}
+/* line 43, ../../compass/sass/styles.scss */
+.intro img {
+  height: 75px;
+}
+
+/* line 49, ../../compass/sass/styles.scss */
+#register, #sign_in {
+  /* CSS used here will be applied after bootstrap.css */
+}
+/* line 51, ../../compass/sass/styles.scss */
+#register .input-lg, #register .alert, #sign_in .input-lg, #sign_in .alert {
+  border-radius: 2px;
+  background-color: #FDEDD0;
+  color: #533602;
+}
+/* line 57, ../../compass/sass/styles.scss */
+#register .btn, #sign_in .btn {
+  background-color: #6B330D;
+}
+/* line 61, ../../compass/sass/styles.scss */
+#register img, #sign_in img {
+  width: 150px;
 }

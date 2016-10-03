@@ -1,4 +1,64 @@
 body{
-	background-color: #1d96d7;
+	background-color: #FEA008;
+	color: #533602;
+	font-family: 'Architects Daughter', cursive;
 }
 
+.navbar {
+	background-color: #FDEDD0;
+	margin: 0px;
+
+	li a {
+		background-color: #FFC439;
+		color: #533602;
+		height: 50px;
+	}
+
+	.navbar-header {
+		padding: 8px 15px;
+	}
+}
+
+
+#myCarousel {
+	height: 500px;
+
+	img {
+		width: 100%;
+	}
+
+	.carousel-caption {
+		margin-bottom: 200px;
+
+		h1 {
+			font-size: 100px;
+		}
+	}
+}
+
+.intro {
+	margin-top: 50px;
+	background:rgba(253, 237, 208, 0.8);
+
+	img {
+		height: 75px;
+	}
+}
+
+
+#register, #sign_in{
+/* CSS used here will be applied after bootstrap.css */
+	.input-lg, .alert{
+		border-radius:2px;
+		background-color: #FDEDD0;
+		color: #533602;
+	}
+
+	.btn {
+		background-color: #6B330D;
+	}
+
+	img {
+		width: 150px;
+	}
+}

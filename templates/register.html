@@ -1,0 +1,48 @@
+{% extends 'layout.html' %} 
+{% block body %}
+
+
+<div id="register" class="container" ation="/register_submit">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="">
+                <div class="">
+                    <h3 class="text-center">Create Your Account</h3>
+                </div>
+                <div class="panel-body">
+                    {% if message: %}
+                    <div class="panel-body">
+                        <div class="alert alert-danger">
+                            <a class="close" data-dismiss="alert" href="#">×</a>{{message}}
+                        </div>
+                        {% endif %}
+                        <form method="post" action="/register_submit">
+                            <!-- <img alt="bee logo" src="/static/images/dead_bee.png"><br><br> -->
+                            <div class="form-group has-error">
+                                <input class="form-control input-lg" placeholder="real_name" name="real_name" type="text">
+                            </div>
+                            <div class="form-group has-error">
+                                <input class="form-control input-lg" placeholder="Username" name="username" type="text">
+                            </div>
+                            <div class="form-group has-error">
+                                <input class="form-control input-lg" placeholder="E-mail Address" name="email" type="text">
+                            </div>
+                            <div class="form-group has-success">
+                                <input class="form-control input-lg" placeholder="Password" name="password" type="password">
+                            </div>
+                            <div class="form-group has-success">
+                                <input class="form-control input-lg" placeholder="Confirm Password" name="password" value="" type="password">
+                            </div>
+                            <div class="checkbox">
+                                <label>
+                                    <input name="terms" type="checkbox">I have read and agree to the <a href="#">terms of service</a>
+                                </label>
+                            </div>
+                            <input class="btn btn-lg btn-primary btn-block" value="Register" type="submit">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock %}

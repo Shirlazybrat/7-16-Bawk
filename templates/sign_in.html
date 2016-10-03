@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+{% block body %}
+
+
+<div id="sign_in" class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="">
+                <div class="">
+                      <h3 class="text-center">Sign-In</h3>
+                </div>
+
+                {% if message: %}
+                <div class="panel-body">
+                  <div class="alert alert-danger">
+                <a class="close" data-dismiss="alert" href="#">×</a>{{message}}
+            </div>
+            {% endif %}
+                    <form action="/sign_in_submit" method="post">
+                        <div class="form-group has-error">
+                            <input class="form-control input-lg" placeholder="username" name="username" type="text">
+                        </div>
+                        <div class="form-group has-success">
+                            <input class="form-control input-lg" placeholder="Password" name="password" value="" type="password">
+                        </div>
+                        <input class="btn btn-lg btn-primary btn-block" value="Sign-in" type="submit">
+                        <div class="checkbox">
+                            <label>
+                                <input name="forgot" type="checkbox">Forgot your username or password?<a href="/register">Re-register</a>
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
