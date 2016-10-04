@@ -33,6 +33,9 @@ body{
 		h1 {
 			font-size: 100px;
 		}
+		h2 {
+			font-size: 75px;
+		}
 	}
 }
 
@@ -48,10 +51,14 @@ body{
 
 #register, #sign_in{
 /* CSS used here will be applied after bootstrap.css */
-	.input-lg, .alert{
+	.input-lg {
 		border-radius:2px;
 		background-color: #FDEDD0;
 		color: #533602;
+	}
+
+	.alert {
+		border-radius:2px;
 	}
 
 	.btn {
@@ -60,5 +67,37 @@ body{
 
 	img {
 		width: 150px;
+	}
+}
+
+#submit-post-form {
+	background:rgba(253, 237, 208, 0.50);
+	border-radius:3px;
+	color: #533602;
+	margin-top: 10px;
+	padding: 5px;
+	font-size: 20px;
+	height: 300px;
+
+	textarea {
+		height: 150px;
+		width: 400px;
+	}
+
+	button {
+		margin-top: 20px;
+	}
+}
+
+.posting-text {
+	background-color: #FDEDD0;
+	border-radius:3px;
+	color: #533602;
+	margin: 50px;
+	padding: 20px;
+	font-size: 15px;
+
+	.posting-wrapper {
+		vertical-align: top; 
 	}
 }

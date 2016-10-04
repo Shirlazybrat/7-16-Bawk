@@ -24,9 +24,8 @@
             <img src="/static/images/bee_closeup.png" class="img-responsive">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Changes to the Grid</h1>
-                    <p>Bootstrap 3 still features a 12-column grid, but many of the CSS class names have completely changed.</p>
-                    <p><a class="btn btn-large btn-primary" href="#">Learn more</a></p>
+                    <h2>Bee species added to endangered list for first time</h2>
+                    <!-- <p>Bootstrap 3 still features a 12-column grid, but many of the CSS class names have completely changed.</p> -->
                 </div>
             </div>
         </div>
@@ -34,9 +33,9 @@
             <img src="/static/images/worker_bees.png" class="img-responsive">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Percentage-based sizing</h1>
-                    <p>With "mobile-first" there is now only one percentage-based grid.</p>
-                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p>
+                    <h2>Bees placed on endangered species list -- a first in the US</h2>
+                    <!-- <p>With "mobile-first" there is now only one percentage-based grid.</p>
+                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p> -->
                 </div>
             </div>
         </div>
@@ -44,9 +43,9 @@
             <img src="/static/images/bee_banner.jpg" class="img-responsive">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Percentage-based sizing</h1>
-                    <p>With "mobile-first" there is now only one percentage-based grid.</p>
-                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p>
+                    <h2>The United States is on a mission to save some of its busiest workers: bees.</h2>
+                    <!-- <p>With "mobile-first" there is now only one percentage-based grid.</p>
+                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p> -->
                 </div>
             </div>
         </div>
@@ -54,9 +53,9 @@
             <img src="/static/images/bee-hero.png" class="img-responsive">
             <div class="container">
                 <div class="carousel-caption">
-                    <h1>Percentage-based sizing</h1>
-                    <p>With "mobile-first" there is now only one percentage-based grid.</p>
-                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p>
+                    <h2>Mankind will not survive the honeybees’ disappearance for more than five years.</h2>
+                    <!-- <p>With "mobile-first" there is now only one percentage-based grid.</p>
+                    <p><a class="btn btn-large btn-primary" href="#">Browse gallery</a></p> -->
                 </div>
             </div>
         </div>
@@ -76,31 +75,49 @@
             <h2 class="text-center">Bees in trouble and agriculture decline</h2>
             <blockquote>
                 <img src="/static/images/bee-hero.png">
-                <p>Scientists have recently reported that mass extinctions of marine animals may soon be occurring at alarmingly rapid rates than previously projected due to pollution, rising water temperatures and loss of habitat. Many land species also face a similar fate for the same reasons. But perhaps the biggest foreboding danger of all facing humans is the loss of the global honeybee population. The consequence of a dying bee population impacts man at the highest levels on our food chain, posing an enormously grave threat to human survival. Since no other single animal species plays a more significant role in producing the fruits and vegetables that we humans commonly take for granted yet require near daily to stay alive, the greatest modern scientist Albert Einstein once prophetically remarked, “Mankind will not survive the honeybees’ disappearance for more than five years.”</p>
+                <p>Scientists have recently reported that mass extinctions of marine animals may soon be occurring at alarmingly rapid rates than previously projected due to pollution, rising water temperatures and loss of habitat. Many land species also face a similar fate for the same reasons. But perhaps the biggest foreboding danger of all facing humans is the loss of the global honeybee population. The consequence of a dying bee population impacts man at the highest levels on our food chain, posing an enormously grave threat to human survival. Since no other single animal species plays a more significant role in producing the fruits and vegetables that we humans commonly take for granted yet require near daily to stay alive, the greatest modern scientist Albert Einstein once prophetically remarked, <span>“Mankind will not survive the honeybees’ disappearance for more than five years.”</span></p>
                 <footer>Article from
                     <cite title="Source Title">http://www.globalresearch.ca/death-and-extinction-of-the-bees</cite>
                 </footer>
             </blockquote>
         </div>
     </div>
-    <div class="posting">
-        {% for row in left_data: %}
-        <a href="/link_page/{{row[3]}}">
+</div>
+
+
+<div class="col-sm-offset-3 col-sm-6">
+	<form class="text-center" action="post_submit" method="POST" id="submit-post-form">
+		<div class="row">
+		<label>What can you say to save the bees?</label>
+		</div>
+		<div class="row">
+		<textarea name="post_content" width="60" height="8"></textarea>
+		</div>
+		<button type="submit" class="btn btn-default">Send Buzz</button>
+	</form>
+</div>
+
+<div class="col-sm-8 col-sm-offset-2">
+<div class="posting">
+        {% for row in posts: %}
+        <a href="/link_page/{{row[3]}}"></a>
             <div class="posting-text">
-                <div class="posting-image">
+                <!-- <div class="posting-image">
                     <img src="static/images/{{row[2]}}">
-                </div>
+                </div> -->
                 <div class="posting-wrapper">
                     <p class="block-header">
-                        {{row[0]}}
+                        {{row[8]}}
                     </p>
+                    <h3 class="block-text">
+                        {{row[2]}}
+                    </h3>
                     <p class="block-text">
-                        {{row[1]}}
+                    	{{row[3].strftime('%r - %m/%d/%y')}}
                     </p>
                 </div>
             </div>
-        </a>
         {% endfor %}
     </div>
-</div>
+	</div>
 {% endblock %}
