@@ -84,40 +84,55 @@
     </div>
 </div>
 
-
 <div class="col-sm-offset-3 col-sm-6">
-	<form class="text-center" action="post_submit" method="POST" id="submit-post-form">
-		<div class="row">
-		<label>What can you say to save the bees?</label>
-		</div>
-		<div class="row">
-		<textarea name="post_content" width="60" height="8"></textarea>
-		</div>
-		<button type="submit" class="btn btn-default">Send Buzz</button>
-	</form>
+    <form class="text-center" action="post_submit" method="POST" id="submit-post-form">
+        <div class="row">
+            <label>What can you say to save the bees?</label>
+        </div>
+        <div class="row">
+            <textarea name="post_content"></textarea>
+        </div>
+        <button type="submit" class="btn btn-default">Buzz</button>
+    </form>
 </div>
 
 <div class="col-sm-8 col-sm-offset-2">
-<div class="posting">
+    <div class="posting">
         {% for row in posts: %}
         <a href="/link_page/{{row[3]}}"></a>
-            <div class="posting-text">
-                <!-- <div class="posting-image">
+        <div class="posting-text col-sm-12">
+            <!-- <div class="posting-image">
                     <img src="static/images/{{row[2]}}">
                 </div> -->
-                <div class="posting-wrapper">
-                    <p class="block-header">
-                        {{row[8]}}
-                    </p>
-                    <h3 class="block-text">
+            <div class="posting-wrapper col-sm-11">
+                
+                <h3 class="block-text">
                         {{row[2]}}
                     </h3>
-                    <p class="block-text">
-                    	{{row[3].strftime('%r - %m/%d/%y')}}
-                    </p>
-                </div>
+                <p class="block-header">
+                    Buzzed by: {{row[6]}}
+                </p>
+                <p class="block-text">
+                    {{row[4].strftime('%r - %m/%d/%y')}}
+                </p>
             </div>
+            <div class="col-sm-1 vote">
+              <ul>
+                <li>
+                  <a href="" class="vote vote-up" post-id="{{row[0]}}">
+                    <i class="fa fa-thumbs-up fa-lg" aria-hidden="true"></i></a>
+                </li>
+                <li class="vote vote-up-down-number" up-down-id="{{row[14]}}">{{row[14]}}
+                </li>
+                <li>
+                  <a href="" class="vote vote-down" post-id="{{row[0]}}">
+                    <i class="fa fa-thumbs-down fa-lg" aria-hidden="true"></i></a>
+                  </li>
+              </ul>
+            </div>
+        </div>
         {% endfor %}
     </div>
-	</div>
+</div>
+</div>
 {% endblock %}

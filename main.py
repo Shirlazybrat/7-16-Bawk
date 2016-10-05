@@ -1,5 +1,5 @@
 # Import flask stuff
-from flask import Flask, render_template, redirect, request, session
+from flask import Flask, render_template, redirect, request, session, jsonify
 # import the mysql module
 from flaskext.mysql import MySQL
 import bcrypt
@@ -28,11 +28,56 @@ app.secret_key = "navlksnlakjwa8924hr8qoarhfvpui34"
 
 @app.route('/')
 def index():
-	current_posts_query = "SELECT * FROM buzz LEFT JOIN user ON buzz.user_id = user.id ORDER BY date DESC"
+	current_posts_query = "SELECT * FROM buzz LEFT JOIN user ON buzz.user_id = user.id LEFT JOIN votes on votes.post_id = buzz.id ORDER BY date DESC"
 	cursor.execute(current_posts_query)
 	current_posts_result = cursor.fetchall()
 	return render_template('index.html',
 		posts = current_posts_result)
+
+@app.route('/process_vote', methods=['POST'])
+def process_vote():
+
+	post_id = request.form['vid'] #this is the post voted on from jquery ajax
+	print post_id
+	vote_type = request.form['voteType']
+	# print "I am here %s"  % session['username']
+	# print "I am here %r"  % session
+	 
+	
+	print vote_type
+	# check to see if the user voted on this item
+	check_user_votes_query ="SELECT * FROM votes INNER JOIN user ON user.id = votes.user_id WHERE user.username = '%s' AND votes.post_id = '%s'" % (session['username'], post_id)
+	cursor.execute(check_user_votes_query)
+	check_user_votes_result = cursor.fetchone()
+
+	
+	if check_user_votes_result is None:
+		insert_user_vote_query = "INSERT INTO votes (post_id, user_id, vote_type) VALUES ('%s', '%s','%s')" % (post_id, session['user_id'], vote_type)
+		cursor.execute(insert_user_vote_query)
+		conn.commit()
+		return jsonify("voteCounted")	
+
+	else: 
+		check_user_vote_direction_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.user_id WHERE user.username = '%s' AND votes.post_id = '%s' AND votes.vote_type = %s" % (session['username'], post_id, vote_type)
+		cursor.execute(check_user_vote_direction_query)
+		check_user_vote_direction_result = cursor.fetchone()
+		if check_user_vote_direction_result is None:
+			# User has voted, but not this direction. Update
+			update_user_vote_query = "UPDATE votes SET vote_type = %s WHERE user_id = '%s' AND post_id = '%s'" % (vote_type, session['user_id'], post_id)
+			cursor.execute(update_user_vote_query)
+			conn.commit()
+			return "voteChanged"
+		else:
+			# User has already voted this directino on this post. No dice.
+			return "alreadyVoted"
+			
+	
+
+	# vote_post_query = "UPDATE current_vote FROM buzz SET buzz.current_vote = buzz.current_vote + 1"
+	# cursor.execute(vote_posts_query)
+	# vote_posts_result = cursor.fetchall()
+	# return render_template('index.html',
+	# 	posts = vote_posts_result)
 
 
 @app.route('/register')
