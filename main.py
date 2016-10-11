@@ -36,15 +36,17 @@ def index():
 
 @app.route('/process_vote', methods=['POST'])
 def process_vote():
-
-	post_id = request.form['vid'] #this is the post voted on from jquery ajax
+	print "Hello world"
+	print session['user_id'] 
+	post_id = request.form['vote_id'] #this is the post voted on from jquery ajax
 	print post_id
 	vote_type = request.form['voteType']
 	# print "I am here %s"  % session['username']
 	# print "I am here %r"  % session
-	 
 	
 	print vote_type
+	print session['username']
+
 	# check to see if the user voted on this item
 	check_user_votes_query ="SELECT * FROM votes INNER JOIN user ON user.id = votes.user_id WHERE user.username = '%s' AND votes.post_id = '%s'" % (session['username'], post_id)
 	cursor.execute(check_user_votes_query)
@@ -52,24 +54,31 @@ def process_vote():
 
 	
 	if check_user_votes_result is None:
-		insert_user_vote_query = "INSERT INTO votes (post_id, user_id, vote_type) VALUES ('%s', '%s','%s')" % (post_id, session['user_id'], vote_type)
+		insert_user_vote_query = "INSERT into votes (post_id, user_id, vote_type) values ('"+str(post_id)+"', '"+str(session['user_id'])+"', '"+str(vote_type)+"')"
 		cursor.execute(insert_user_vote_query)
 		conn.commit()
-		return jsonify("voteCounted")	
+		cursor.execute(get_new_total_result)
+		get_new_total_result = cursor.fetchone()
+		return jsonify({'message':"voteChanged", 'voteTotal': get_new_total_result[0]})
+		
+		# return jsonify("voteCounted")	
 
 	else: 
-		check_user_vote_direction_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.user_id WHERE user.username = '%s' AND votes.post_id = '%s' AND votes.vote_type = %s" % (session['username'], post_id, vote_type)
+		check_user_vote_direction_query = "SELECT * FROM votes INNER JOIN user ON user.id = votes.user_id WHERE user.username = '%s' AND votes.post_id = '%s' AND votes.vote_type = '%s'" % (session['username'], post_id, vote_type)
 		cursor.execute(check_user_vote_direction_query)
 		check_user_vote_direction_result = cursor.fetchone()
 		if check_user_vote_direction_result is None:
 			# User has voted, but not this direction. Update
-			update_user_vote_query = "UPDATE votes SET vote_type = %s WHERE user_id = '%s' AND post_id = '%s'" % (vote_type, session['user_id'], post_id)
+			update_user_vote_query = "UPDATE votes SET vote_type = '%d' WHERE user_id = '%d' AND post_id = '%d'" % (vote_type, session['user_id'], post_id)
 			cursor.execute(update_user_vote_query)
 			conn.commit()
-			return "voteChanged"
+			get_new_total_query = "SELECT sum(vote_type as vote_total FROM votes WHERE post_id = '%d' GROUP BY post_id" % post_id
+			cursor.execute(get_new_total_result)
+			get_new_total_result = cursor.fetchone()
+			return jsonify({'message':"voteChanged", 'voteTotal': get_new_total_result[0]})
 		else:
 			# User has already voted this directino on this post. No dice.
-			return "alreadyVoted"
+			return jsonify({'messge': "alreadyVoted"})
 			
 	
 
@@ -168,6 +177,45 @@ def post_submit():
 	cursor.execute(insert_post_query)
 	conn.commit()
 	return redirect('/')
+
+@app.route('/follow')
+def follow():
+	get_all_not_me_users_query = "SELECT * FROM user WHERE id != '%s' " % session['id'] 
+	
+	get_all_following_query = "SELECT * FROM follow LEFT JOIN user ON user.id = follow.uid_of_user_following = '%s'" % session['id']
+	
+	# who user is get_all_following_query
+	# we want username and id
+	get_all_following_query = "SELECT u.username, f.uid_of_user_followed FROM follow f  LEFT JOIN user u ON u.id = f.uid_of_user_followed WHERE f.uid_of_user_following = '%s'" % session['id']
+	cursor.execute(get_all_following_query)
+	get_all_following_result = cursor.fetchall()
+	# who is the user not following
+	# who user is not following -- all users in the table minus those user is following
+	get_all_not_following_query = "SELECT * FROM user WHERE id NOT IN (SELECT uid_of_user_followed WHERE uid_of_user_following = '%s') AND id != '%s')" % (session['id'], session['id'])
+	cursor.execute(get_all_not_following_query)
+	get_all_not_following_result = cursor.fetchall()
+
+
+	return render_template('follow.html',
+		following_list = get_all_following_result,
+		not_following_list = get_all_not_following_result)
+
+@app.route('/follow_user')
+def follow_user():
+	user_id_to_follow = request.args.get('user_id')
+	follow_query = "INSERT INTO follow (uid_of_user_followed, uid_of_user_following) VALUES ('%s', '%s')" %(user_id_to_follow, session['id'])
+	# return unfollow_query
+	cursor.execute(follow_query)
+	conn.commit()
+	return redirect('/follow')
+
+@app.route('/unfollow_user')
+def unfollow_user():
+	user_id_to_unfollow = request.args.get('user_id')
+	unfollow_query = "DELETE FROM follow WHERE uid_id_user_followed = '%s' AND uid_of_user_following = '%s'" %(user_id_to_unfollow, session['id'])
+	cursor.execute(unfollow_query)
+	conn.commit()
+	return redirect('/unfollow')
 
 
 

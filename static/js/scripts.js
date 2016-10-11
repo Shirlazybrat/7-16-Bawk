@@ -1,8 +1,8 @@
 $(document).ready(function(){
 	$('.vote').click(function(e){
 		e.preventDefault()
-		var vid = $(this).attr('post-id')
-		if ($(this).hasClass("vote-up")){
+		var vote_id = $(this).attr('post_id')
+		if ($(this).hasClass("vote_up")){
 			//user clicked on the thumb up 
 			var voteType = 1;
 			console.log('up')
@@ -15,8 +15,15 @@ $(document).ready(function(){
 		$.ajax({
 			url: "/process_vote",
 			type: "post",
-			data: {vid:vid, voteType:voteType},
+			data: {vote_id:vote_id, voteType:voteType},
 			success: function(result){
+				if (result.message == 'voteChanged'){
+					// the users vote was updated by python, updat in field
+					($("div[up-down-id='" + vote_id + "']").html(result.vote_total))
+				}
+				else if ( result.message == 'alreadyVoted'){
+					$("div[up-down-id='" + vote_id + "']").html("you already voted for this buzz!")
+				}
 				console.log(result)
 			},
 			error: function(error){
