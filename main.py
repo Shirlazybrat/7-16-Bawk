@@ -57,7 +57,7 @@ def process_vote():
 		insert_user_vote_query = "INSERT into votes (post_id, user_id, vote_type) values ('"+str(post_id)+"', '"+str(session['user_id'])+"', '"+str(vote_type)+"')"
 		cursor.execute(insert_user_vote_query)
 		conn.commit()
-		cursor.execute(get_new_total_result)
+		cursor.execute(get_new_total_query)
 		get_new_total_result = cursor.fetchone()
 		return jsonify({'message':"voteChanged", 'voteTotal': get_new_total_result[0]})
 		
